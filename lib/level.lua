@@ -14,14 +14,15 @@ end
 function Level:update(dt)
     for i, fighter in ipairs(self.fighterList) do
         -- remove itself
-        local _list = {}
         if not self.finish then
+            local _list = {}
             _list = base.tableClone(self.fighterList)
             table.remove(_list, i)
+
+            -- update
+            fighter:update(dt, _list)
         end
         
-        -- update
-        fighter:update(dt, _list)
         if not self.finish then
             if not base.getCollisionCircle(fighter.x, fighter.y, fighter.radius, base.guiWidth/2, base.guiHeight/2, base.guiHeight/2) then
                 self.finish = true
@@ -49,15 +50,6 @@ function Level:draw()
     -- stage
     love.graphics.setColor(base.cWhite)
     love.graphics.circle("line", base.guiWidth/2, base.guiHeight/2, base.guiHeight/2)
-    --[[
-    for i = 1, base.guiWidth, 10 do
-        for j = 1, base.guiHeight, 10 do
-            if base.getDis(base.guiWidth/2, base.guiHeight/2, i, j) > base.guiHeight/2 then
-                love.graphics.points(i, j)
-            end
-        end
-    end
-    ]]
 
     -- fighter
     for i, fighter in ipairs(self.fighterList) do

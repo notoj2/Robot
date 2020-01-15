@@ -43,7 +43,7 @@ function Screen:draw()
     base.print("A - Start\t\t<> - Select", base.guiWidth/2, base.guiHeight, "center", "bottom")
 
     -- img
-    local scale1 = 0.8
+    local scale1 = 0.9
     love.graphics.draw(self.img_gameLogo, base.guiWidth*(1-scale1)/2, 10, 0, scale1, scale1)
 end
 

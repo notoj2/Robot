@@ -120,6 +120,14 @@ function Fighter:update(dt, leftPunch, rightPunch, fighterList)
             self.dir = self.dir + math.pi/4/self.punchTimerMax*sign
             self.spdX = base.dir_getXY(self.dir, self.radius/self.punchTimerMax, "x")
             self.spdY = base.dir_getXY(self.dir, self.radius/self.punchTimerMax, "y")
+
+            -- collision
+            for index, fighter in ipairs(fighterList) do
+                if base.getCollisionCircle(self.x, self.y, self.radius, fighter.x, fighter.y, fighter.radius) then
+                    self.spdX = 0
+                    self.spdY = 0
+                end
+            end
         end
 
         -- attack
@@ -131,7 +139,7 @@ function Fighter:update(dt, leftPunch, rightPunch, fighterList)
                 end
 
                 -- attack
-                if self:collision(fighter.x, fighter.y, fighter.radius) then
+                if self:handCollision(fighter.x, fighter.y, fighter.radius) then
                     table.insert(self.attackList, fighter)
                     fighter.beAttack = true
                     fighter.beAttackDir = self.dir
@@ -147,9 +155,11 @@ function Fighter:update(dt, leftPunch, rightPunch, fighterList)
         end
     end
 
+
     -- set spd
     self.x = self.x + self.spdX
     self.y = self.y + self.spdY
+
 
     -- set dir
     if self.dir > math.pi*2 then
@@ -161,10 +171,15 @@ end
 
 
 function Fighter:draw()
+    
+    love.graphics.setColor(base.cBlack)
+    love.graphics.circle("fill", self.x, self.y, self.radius)
+
+
+
     love.graphics.setColor(self.cLine)
     -- body
     love.graphics.circle("line", self.x, self.y, self.radius)
-    --base.drawCircle(self.x, self.y, self.radius)
     
     -- dir
     local xDis = base.dir_getXY(self.dir, self.radius, "x")
@@ -174,19 +189,23 @@ function Fighter:draw()
     -- hand
     for i, hand in ipairs(self.handList) do
         --base.drawCircle(hand.x, hand.y, self.handRadius)
-        love.graphics.circle("line", hand.x, hand.y, self.handRadius)
+        --love.graphics.circle("line", hand.x, hand.y, self.handRadius)
 
+        local xDis, yDis = 0, 0
         if self.punch and i == self.punchHand then
-            local xDis = base.dir_getXY(self.dir, getPunchLen(self), "x")
-            local yDis = base.dir_getXY(self.dir, getPunchLen(self), "y")
-            love.graphics.circle("line", hand.x + xDis, hand.y + yDis, self.handRadius)
-            --base.drawCircle(hand.x+xDis, hand.y+yDis, self.handRadius)
+            xDis = base.dir_getXY(self.dir, getPunchLen(self), "x")
+            yDis = base.dir_getXY(self.dir, getPunchLen(self), "y")
         end
+
+        love.graphics.setColor(base.cBlack)
+        love.graphics.circle("fill", hand.x+xDis, hand.y+yDis, self.handRadius)
+        love.graphics.setColor(self.cLine)
+        love.graphics.circle("line", hand.x+xDis, hand.y+yDis, self.handRadius)
     end
 end
 
 
-function Fighter:collision(x, y, radius)
+function Fighter:handCollision(x, y, radius)
     local hand = self.handList[self.punchHand]
     local xDis = base.dir_getXY(self.dir, getPunchLen(self), "x")
     local yDis = base.dir_getXY(self.dir, getPunchLen(self), "y")

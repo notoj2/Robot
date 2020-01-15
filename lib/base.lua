@@ -17,6 +17,7 @@ base.cBlue = {0, 0, 1}
 base.cGray = {0.5, 0.5, 0.5}
 base.cDarkGray = {0.25, 0.25, 0.25}
 base.cPlayer1 = {207/255, 51/255, 47/255}
+base.cPlayer2 = {19/255, 101/255, 230/255}
 
 
 --- func
