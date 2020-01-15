@@ -1,0 +1,7 @@
+# use boon to build
+/boon.exe
+/Boon.toml
+# build dir
+/release
+# debug dir
+/screens/debug
