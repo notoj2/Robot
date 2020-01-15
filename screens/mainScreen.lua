@@ -40,7 +40,7 @@ function Screen:draw()
         base.print(text, base.guiWidth/3*i, base.guiHeight/5*4, "center", "center")
     end
 
-    base.print("A - Start\t\t<> - Select", base.guiWidth/2, base.guiHeight, "center", "bottom")
+    base.print("A - Start\t\t←→ - Select", base.guiWidth/2, base.guiHeight, "center", "bottom")
 
     -- img
     local scale1 = 0.9

@@ -6,6 +6,9 @@ love.graphics.present()
 
 
 --- LIB
+-- font
+local font = love.graphics.newFont("font/iosevka-bold.ttf", 20)
+love.graphics.setFont(font)
 -- object-oriented
 Object = require "lib.classic"
 -- base
@@ -26,7 +29,8 @@ local pveScreen = require "screens.level.pveScreen"
 
 --- LOAD GAME
 function love.load()
-    --- register screens
+    
+     --- register screens
     local screenManager = ScreenManager()
     screenManager:register('/', MainScreen)   -- frist
     screenManager:register('pvpScreen', pvpScreen)

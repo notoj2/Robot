@@ -13,17 +13,16 @@ end
 
 function Level:update(dt)
     for i, fighter in ipairs(self.fighterList) do
-        -- remove itself
         if not self.finish then
+            -- remove itself
             local _list = {}
             _list = base.tableClone(self.fighterList)
             table.remove(_list, i)
 
             -- update
             fighter:update(dt, _list)
-        end
-        
-        if not self.finish then
+            
+            -- win
             if not base.getCollisionCircle(fighter.x, fighter.y, fighter.radius, base.guiWidth/2, base.guiHeight/2, base.guiHeight/2) then
                 self.finish = true
                 self.loserIndex = i
@@ -31,14 +30,21 @@ function Level:update(dt)
         end
     end
 
-    -- back mainScreen
-    if base.isDown(keys.B) then
-        self.backTimer = self.backTimer + 1
-        if self.backTimer >= self.backTimerMax then
+    -- finish
+    if self.finish then
+        if base.isPressed(keys.A) then
             self.screen:view('/')
         end
     else
-        self.backTimer = 0
+        -- back mainScreen
+        if base.isDown(keys.B) then
+            self.backTimer = self.backTimer + 1
+            if self.backTimer >= self.backTimerMax then
+                self.screen:view('/')
+            end
+        else
+            self.backTimer = 0
+        end
     end
 end
 
@@ -63,13 +69,13 @@ function Level:draw()
 
     -- win
     if self.finish then
-        local text = 'blue'
+        local text = 'Blue'
         if self.loserIndex == 1 then
-            text = 'red'
+            text = 'Red'
         end
 
         love.graphics.setColor(base.cWhite)
-        base.print(text .. ' win!', base.guiWidth/2, base.guiHeight/2, 'center', 'center')
+        base.print(text .. ' Win!\n\nA - Continue', base.guiWidth/2, base.guiHeight/2, 'center', 'center')
     end
 end
 
