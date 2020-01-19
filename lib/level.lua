@@ -1,6 +1,6 @@
 Level = Screen:extend()
 
-function Level:activate()
+function Level:activate(fighterIndex, fighterScore1, fighterScore2)
     self.fighterList = {}
     
     self.finish = false
@@ -8,6 +8,11 @@ function Level:activate()
 
     self.backTimer = 0
     self.backTimerMax = 60
+
+    self.fighterIndex = fighterIndex
+
+    self.fighterScoreList = {fighterScore1, fighterScore2}
+    self.roundMax = 3
 end
 
 
@@ -25,7 +30,10 @@ function Level:update(dt)
             -- win
             if not base.getCollisionCircle(fighter.x, fighter.y, fighter.radius, base.guiWidth/2, base.guiHeight/2, base.guiHeight/2) then
                 self.finish = true
-                self.loserIndex = i
+                self.loserIndex = fighter.id
+
+                -- score++
+                self.fighterScoreList[3-self.loserIndex] = self.fighterScoreList[3-self.loserIndex] + 1
             end
         end
     end
@@ -33,7 +41,14 @@ function Level:update(dt)
     -- finish
     if self.finish then
         if base.isPressed(keys.A) then
-            self.screen:view('/')
+            if self.fighterScoreList[1]+self.fighterScoreList[2] >= self.roundMax then
+                -- go mainScreen
+                self.screen:view('/')
+            else
+                -- next round
+                self:activate(self.fighterIndex, self.fighterScoreList[1], self.fighterScoreList[2])
+            end
+            
         end
     else
         -- back mainScreen
@@ -69,13 +84,11 @@ function Level:draw()
 
     -- win
     if self.finish then
-        local text = 'Blue'
-        if self.loserIndex == 1 then
-            text = 'Red'
-        end
+        local textList = {'Red', 'Blue'}
+        local scoreText = textList[self.fighterIndex] ..'\t'.. self.fighterScoreList[self.fighterIndex] .. ':' .. self.fighterScoreList[3-self.fighterIndex] ..'\t'.. textList[3-self.fighterIndex]
 
         love.graphics.setColor(base.cWhite)
-        base.print(text .. ' Win!\n\nA - Continue', base.guiWidth/2, base.guiHeight/2, 'center', 'center')
+        base.print(scoreText .. '\n\nA - Continue', base.guiWidth/2, base.guiHeight/2, 'center', 'center')
     end
 end
 

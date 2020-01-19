@@ -1,8 +1,8 @@
 Player = Fighter:extend()
 
 
-function Player:new(x, y, dir, cLine, leftKey, rightKey)
-    Player.super.new(self, x, y, dir, cLine)
+function Player:new(x, y, dir, cLine, id, leftKey, rightKey)
+    Player.super.new(self, x, y, dir, cLine, id)
 
     self.leftKey = keys.up
     if leftKey ~= nil then

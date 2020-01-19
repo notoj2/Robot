@@ -31,7 +31,7 @@ local function getPunchLen(self)
     return mode*self.punchLen
 end
 
-function Fighter:new(x, y, dir, cLine)
+function Fighter:new(x, y, dir, cLine, id)
     -- body
     self.x = x
     self.y = y
@@ -67,6 +67,9 @@ function Fighter:new(x, y, dir, cLine)
     self.beAttackTimer = 0
     self.beAttackTimerMax = 10
     self.beAttackDis = 25
+
+    -- score
+    self.id = id
 end
 
 

@@ -38,8 +38,8 @@ local function getPunchDir(self, fighterList)
     return not flag, flag
 end
 
-function FighterAI:new(x, y, dir, cLine)
-    FighterAI.super.new(self, x, y, dir, cLine)
+function FighterAI:new(x, y, dir, cLine, id)
+    FighterAI.super.new(self, x, y, dir, cLine, id)
     
     self.leftPunch = false
     self.rightPunch = false
