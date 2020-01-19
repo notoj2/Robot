@@ -27,13 +27,16 @@ function Level:update(dt)
             -- update
             fighter:update(dt, _list)
             
-            -- win
+            -- win -- 1 frame
             if not base.getCollisionCircle(fighter.x, fighter.y, fighter.radius, base.guiWidth/2, base.guiHeight/2, base.guiHeight/2) then
                 self.finish = true
                 self.loserIndex = fighter.id
 
                 -- score++
                 self.fighterScoreList[3-self.loserIndex] = self.fighterScoreList[3-self.loserIndex] + 1
+
+                -- sfx
+                sfx_finish:play()
             end
         end
     end

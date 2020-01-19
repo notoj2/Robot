@@ -29,7 +29,10 @@ local pveScreen = require "screens.level.pveScreen"
 
 --- LOAD GAME
 function love.load()
-    
+    -- sound
+    sfx_menu    = love.audio.newSource("sound/bibi.mp3", "static")
+    sfx_finish  = love.audio.newSource("sound/finish.mp3", "static")
+
      --- register screens
     local screenManager = ScreenManager()
     screenManager:register('/', MainScreen)   -- frist

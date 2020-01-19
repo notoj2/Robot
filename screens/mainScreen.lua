@@ -20,6 +20,9 @@ function Screen:update(dt)
             -- selectFighter
             self.selectFighterIndex = 3 - self.selectFighterIndex
         end
+
+        -- sfx
+        sfx_menu:play()
     end
 
     -- enter
@@ -35,11 +38,17 @@ function Screen:update(dt)
                 self.screen:view('pvpScreen', self.selectFighterIndex, 0, 0)
             end
         end
+
+        -- sfx
+        sfx_menu:play()
     end
 
     -- back to menu
     if base.isPressed(keys.B) and self.selectFighter then
         self.selectFighter = false
+
+        -- sfx
+        sfx_menu:play()
     end
 end
 
